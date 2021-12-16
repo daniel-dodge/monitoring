@@ -7,11 +7,26 @@ var rollbar = new Rollbar({
   captureUncaught: true,
   captureUnhandledRejections: true,
 })
+
+let students = []
+
 const app = express()
+
+app.use(rollbar.errorHandler())
+
 rollbar.log('Hello world!')
 app.get('/', (req,res) => {
     res.sendFile(path.join(__dirname, '/public/index.html'))
     rollbar.info('html file loaded successfully')
+})
+
+app.post('/api/student', (req,res)=>{
+    let {name} = req.body
+    name = name.trim()
+
+    students.push(name)
+
+    rollbar.log("Student added successfully", {author: "Scott", type:"manual"})
 })
 const port = process.env.PORT || 4545
 app.listen(port, () => console.log(`we on ${port} ayyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyy`))
