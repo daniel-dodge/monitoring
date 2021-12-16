@@ -11,8 +11,9 @@ var rollbar = new Rollbar({
 let students = []
 
 const app = express()
+// app.use(express.json)
 
-app.use(rollbar.errorHandler())
+
 
 rollbar.log('Hello world!')
 app.get('/', (req,res) => {
@@ -28,5 +29,6 @@ app.post('/api/student', (req,res)=>{
 
     rollbar.log("Student added successfully", {author: "Scott", type:"manual"})
 })
+app.use(rollbar.errorHandler())
 const port = process.env.PORT || 4545
 app.listen(port, () => console.log(`we on ${port} ayyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyy`))
